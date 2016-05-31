@@ -156,13 +156,13 @@ class Game:
 
         self.cursor = [0, 0]
 
-        self._commands = "\n--- Commands ---\n\nB, b: 카드뭉치에서 새 카드 꺼내기\n\
-                \rW, w: 카드뭉치에서 꺼낸 카드 선택\n\
-                \rS, s: 아래 목록의 카드로 이동\n\
-                \rA, a: 왼쪽으로 이동\n\
-                \rD, d: 오른쪽으로 이동\n\
-                \rP, p: 카드 선택 or 카드를 선택한 곳으로 이동\n\
-                \rQ, q: 종료\n"
+        self._commands = "\n     --- Commands ---\n\n     B, b: 카드뭉치에서 새 카드 꺼내기\n\
+                \r     W, w: 카드뭉치에서 꺼낸 카드 선택\n\
+                \r     S, s: 아래 목록의 카드로 이동\n\
+                \r     A, a: 왼쪽으로 이동\n\
+                \r     D, d: 오른쪽으로 이동\n\
+                \r     P, p: 카드 선택 or 카드를 선택한 곳으로 이동\n\
+                \r     Q, q: 종료\n"
 
         self._warning = ""
 
@@ -206,29 +206,24 @@ class Game:
                     self.board[j].append("[ - ]")
 
     def _insert_columns(self, board):
-        if self.selected[0] < 0 and self.selected[1] < 0: # 선택된 것이 없음
-            for line in board:
-                line.insert(self.cursor[0], "     ")
-            board[self.cursor[1]][self.cursor[0]] = "-->  "
-        elif self.selected[0] == self.cursor[0]: # 선택된 것이 있고, 같은 column
-            for line in board:
-                line.insert(self.cursor[0], "     ")
-            if self.selected[1] == self.cursor[1]:
-                board[self.cursor[1]][self.cursor[0]] = "-->**"
-            else:
-                board[self.cursor[1]][self.cursor[0]] = "-->  "
-                board[self.selected[1]][self.selected[0]] = "   **"
-        else:
-            for line in board:
-                line.insert(max(self.cursor[0], self.selected[0]), "     ")
-                line.insert(min(self.cursor[0], self.selected[0]), "     ")
-            if self.cursor[0] > self.selected[0]:
-                board[self.selected[1]][self.selected[0]] = "   **"
-                board[self.cursor[1]][self.cursor[0]+1] = "-->  "
-            else:
-                board[self.cursor[1]][self.cursor[0]] = "-->  "
-                board[self.selected[1]][self.selected[0]+1] = "   **"
+        result = []
+        for line in board:
+            temp = list()
+            blanks = ["     "] * len(line)
+            for x, y in zip(blanks, line):
+                temp.append(x)
+                temp.append(y)
+            result.append(temp)
 
+        board = result
+
+        if self.cursor == self.selected:
+            board[self.cursor[1]][self.cursor[0]*2] = "-->**"
+        elif self.selected[0] < 0 and self.selected[1] < 0:
+            board[self.cursor[1]][self.cursor[0]*2] = "-->  "
+        else:
+            board[self.cursor[1]][self.cursor[0]*2] = "-->  "
+            board[self.selected[1]][self.selected[0]*2] = "   **"
         return board
 
     def print_board(self):
