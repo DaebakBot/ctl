@@ -53,10 +53,17 @@ class _GetchWindows:
 
     def __call__(self):
         import msvcrt
-        return msvcrt.getch()
+        return msvcrt.getch().decode('utf-8')
 
 
 getch = _Getch()
+
+def colored(s, color):
+    if "Windows" in platform.system():
+        return s
+    else:
+        return color + "{}\033[00;00m".format(s)
+        
 
 
 class Card:
@@ -79,9 +86,9 @@ class Card:
         s = "[" + self.suit + " " + self.rankname + "]"
 
         if self.color == "Red":
-            return "\033[47;31m{}\033[00;00m".format(s)
+            return colored(s, "\033[47;31m")
         else:
-            return "\033[47;30m{}\033[00;00m".format(s)
+            return colored(s, "\033[47;30m")
 
     def __repr__(self):
         return self.__str__()
@@ -258,7 +265,7 @@ class Game:
                 card.opened = True
                 self.opened.put(card)
             except:
-                self._warning = "\033[47;31m더이상 뒤집을 카드가 없습니다.\033[00;00m"
+                self._warning = colored("더이상 뒤집을 카드가 없습니다.", "\033[47;31m")
         elif uinput == "w" or uinput == "W":
             if self.cursor[1]:
                 self.cursor[1] = self.cursor[1] - 1
@@ -365,16 +372,16 @@ class Game:
         clear()
         print("\n\n\n\n\n\n\n카드 게임에 오신 것을 환영합니다.\n\n\n그럴싸하죠?\n\n")
 
-        #for i in range(7):
-        #    time.sleep(1)
-        #    print("\r게임 로딩중" + "."*i, end="")
+        for i in range(7):
+            time.sleep(1)
+            print("\r게임 로딩중" + "."*i, end="")
 
         while True:
             clear()
             self.print_game()
 
             if self.check_win():
-                print("\n\n\n \033[32m축하합니다! 승리하셨습니다!\033[00m \n\n\n")
+                print("\n\n\n " + colored("축하합니다! 승리하셨습니다!", "\033[32m") + " \n\n\n")
                 break
 
             user_input = getch()
