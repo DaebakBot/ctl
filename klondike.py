@@ -15,6 +15,9 @@ import copy
 if 'raw_input' in dir(__builtins__):
     input = raw_input
 
+True = 1
+False = 0
+
 def clear():
     if "Windows" in platform.system():
         os.system("cls")
