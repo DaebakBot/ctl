@@ -28,6 +28,8 @@ rule = """
 """
 
 print(rule)
+if 'raw_input' in dir(__builtins__):
+    input = raw_input
 
 while True:
     guess = input("Guess 4 numbers (to terminate, enter 'q'): ")

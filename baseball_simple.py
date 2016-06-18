@@ -3,6 +3,9 @@ from random import sample
 candidates = '1234567890'
 goal = ''.join(sample(candidates, 4))
 
+if 'raw_input' in dir(__builtins__):
+    input = raw_input
+
 while True:
     guess = input("Guess 4 numbers (to terminate, enter 'q'): ")
 
