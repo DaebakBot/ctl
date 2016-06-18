@@ -12,6 +12,9 @@ import time
 import copy
 
 
+if 'raw_input' in dir(__builtins__):
+    input = raw_input
+
 def clear():
     if "Windows" in platform.system():
         os.system("cls")
