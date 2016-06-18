@@ -378,9 +378,9 @@ class Game:
         clear()
         print("\n\n\n\n\n\n\n카드 게임에 오신 것을 환영합니다.\n\n\n그럴싸하죠?\n\n")
 
-        for i in range(7):
-            time.sleep(1)
-            print("\r게임 로딩중" + "."*i, end="")
+        #for i in range(7):
+        #    time.sleep(1)
+        #    print("\r게임 로딩중" + "."*i, end="")
 
         while True:
             clear()
